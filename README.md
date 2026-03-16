@@ -1,73 +1,33 @@
-# React + TypeScript + Vite
+# GigSheet
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Concert setlist & technical documentation app for live musicians and sound/lighting engineers.
 
-Currently, two official plugins are available:
+Plan your gig from setlist to stage plot, sound patches, monitor mixes, lighting cues — and export everything as printable sheets ready for the venue.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**[Try it live](https://dwursteisen.github.io/GigSheet/)**
 
-## React Compiler
+![GigSheet screenshot](docs/screenshot.png)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- **Event info & schedule** — Venue details, contacts, load-in/soundcheck/show times
+- **Setlist** — Songs, pauses, set headers with key, BPM, duration and notes
+- **Stage plot** — Drag-and-drop musician positioning on a visual stage
+- **Sound patches** — Channel list with instruments, mics, DI boxes and stands
+- **Song-track matrix** — Per-song active channels at a glance
+- **Monitor mixes** — Per-musician monitor return levels
+- **Lighting** — Fixture inventory, DMX addresses, stage positions, and per-song cue programming with RGBW color control
+- **Printable exports** — Rundown, sound sheet and lighting sheet ready to print or save as PDF
+- **Share via URL** — Send your project to bandmates with a single link
+- **Offline-first** — Everything is saved locally in the browser, no account needed
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tech stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+React 19, TypeScript, Tailwind CSS v4, Vite. No backend — runs entirely in the browser with localStorage persistence.
