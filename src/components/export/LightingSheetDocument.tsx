@@ -61,30 +61,47 @@ export function LightingSheetDocument() {
 
       {/* Equipment */}
       <h3 className="font-bold text-xs uppercase mb-1" style={{ color: '#111' }}>Équipement</h3>
-      <table className="text-[8pt] mb-4" style={{ borderCollapse: 'collapse', width: '100%' }}>
-        <thead>
-          <tr style={{ borderBottom: '2px solid #111' }}>
-            <th style={{ padding: '2px 3px', textAlign: 'left', color: '#111' }}>Type</th>
-            <th style={{ padding: '2px 3px', textAlign: 'left', color: '#111' }}>Nom</th>
-            <th style={{ padding: '2px 3px', textAlign: 'left', color: '#111' }}>DMX</th>
-            <th style={{ padding: '2px 3px', textAlign: 'left', color: '#111' }}>Canaux</th>
-            <th style={{ padding: '2px 3px', textAlign: 'left', color: '#111' }}>Position</th>
-            <th style={{ padding: '2px 3px', textAlign: 'left', color: '#111' }}>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lightingEquipment.map(f => (
-            <tr key={f.id} style={{ borderBottom: '1px solid #ddd' }}>
-              <td style={{ padding: '1px 3px', fontWeight: 600, color: '#111' }}>{f.type}</td>
-              <td style={{ padding: '1px 3px', color: '#111' }}>{f.name}</td>
-              <td style={{ padding: '1px 3px', color: '#444' }}>{f.dmxStart}–{f.dmxStart + f.dmxChannels - 1}</td>
-              <td style={{ padding: '1px 3px', color: '#444' }}>{f.dmxChannels}</td>
-              <td style={{ padding: '1px 3px', color: '#444' }}>{f.position}</td>
-              <td style={{ padding: '1px 3px', color: '#888', fontSize: '7pt' }}>{f.notes}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div
+        className="text-[8pt] mb-4"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '4px',
+        }}
+      >
+        {lightingEquipment.map(f => (
+          <div
+            key={f.id}
+            style={{
+              border: '1px solid #ddd',
+              padding: '3px 5px',
+              borderRadius: 2,
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+              <span style={{
+                fontWeight: 700,
+                fontSize: '7pt',
+                color: '#111',
+                backgroundColor: '#f0f0f0',
+                padding: '0 3px',
+                borderRadius: 1,
+              }}>
+                {f.type}
+              </span>
+              <span style={{ fontWeight: 600, color: '#111' }}>{f.name}</span>
+            </div>
+            <div style={{ color: '#444', marginTop: 1 }}>
+              DMX {f.dmxStart}–{f.dmxStart + f.dmxChannels - 1}
+              <span style={{ color: '#888', marginLeft: 4 }}>({f.dmxChannels}ch)</span>
+              <span style={{ marginLeft: 6 }}>{f.position}</span>
+            </div>
+            {f.notes && (
+              <div style={{ color: '#888', fontSize: '7pt', marginTop: 1 }}>{f.notes}</div>
+            )}
+          </div>
+        ))}
+      </div>
 
       {/* Lighting plot */}
       {lightingEquipment.length > 0 && (
