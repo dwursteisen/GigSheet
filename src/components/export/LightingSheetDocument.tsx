@@ -124,50 +124,63 @@ export function LightingSheetDocument() {
               <span style={{ fontWeight: 700, fontSize: '9pt', color: '#111' }}>{song.title}</span>
               {script.mood && <span style={{ fontSize: '8pt', color: '#666', fontStyle: 'italic' }}>— {script.mood}</span>}
             </div>
-            <table className="text-[8pt]" style={{ borderCollapse: 'collapse', width: '100%' }}>
-              <thead>
-                <tr style={{ borderBottom: '1px solid #999' }}>
-                  <th style={{ padding: '1px 3px', textAlign: 'left', color: '#111' }}>Moment</th>
-                  <th style={{ padding: '1px 3px', textAlign: 'left', color: '#111' }}>Projecteur</th>
-                  <th style={{ padding: '1px 3px', textAlign: 'center', color: '#111' }}>Mix</th>
-                  <th style={{ padding: '1px 3px', textAlign: 'center', color: '#111' }}>Faders RGBW</th>
-                  <th style={{ padding: '1px 3px', textAlign: 'center', color: '#111' }}>INT%</th>
-                  <th style={{ padding: '1px 3px', textAlign: 'left', color: '#111' }}>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                {script.cues.map(cue => {
-                  const fixture = lightingEquipment.find(f => f.id === cue.fixtureId);
-                  const rr = Math.min(255, cue.r + cue.w);
-                  const gg = Math.min(255, cue.g + cue.w);
-                  const bb = Math.min(255, cue.b + cue.w);
-                  return (
-                    <tr key={cue.id} style={{ borderBottom: '1px solid #eee' }}>
-                      <td style={{ padding: '1px 3px', color: '#444' }}>{cue.moment}</td>
-                      <td style={{ padding: '1px 3px', color: '#444' }}>{fixture?.name ?? '—'}</td>
-                      <td style={{ padding: '1px 3px', textAlign: 'center' }}>
-                        <span
-                          style={{
-                            display: 'inline-block',
-                            width: 14,
-                            height: 14,
-                            borderRadius: 2,
-                            backgroundColor: `rgb(${rr},${gg},${bb})`,
-                            border: '1px solid #ccc',
-                            verticalAlign: 'middle',
-                          }}
-                        />
-                      </td>
-                      <td style={{ padding: '2px 3px', textAlign: 'center' }}>
-                        <FaderGroup r={cue.r} g={cue.g} b={cue.b} w={cue.w} />
-                      </td>
-                      <td style={{ padding: '1px 3px', textAlign: 'center', color: '#444' }}>{cue.intensity}</td>
-                      <td style={{ padding: '1px 3px', color: '#888', fontSize: '7pt' }}>{cue.notes}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <div
+              className="text-[8pt]"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: '4px',
+              }}
+            >
+              {script.cues.map(cue => {
+                const fixture = lightingEquipment.find(f => f.id === cue.fixtureId);
+                const rr = Math.min(255, cue.r + cue.w);
+                const gg = Math.min(255, cue.g + cue.w);
+                const bb = Math.min(255, cue.b + cue.w);
+                return (
+                  <div
+                    key={cue.id}
+                    style={{
+                      border: '1px solid #ddd',
+                      padding: '3px 5px',
+                      borderRadius: 2,
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+                      <span style={{
+                        fontWeight: 700,
+                        fontSize: '7pt',
+                        color: '#111',
+                        backgroundColor: '#f0f0f0',
+                        padding: '0 3px',
+                        borderRadius: 1,
+                      }}>
+                        {cue.moment}
+                      </span>
+                      <span style={{ fontWeight: 600, color: '#111' }}>{fixture?.name ?? '—'}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          width: 14,
+                          height: 14,
+                          borderRadius: 2,
+                          backgroundColor: `rgb(${rr},${gg},${bb})`,
+                          border: '1px solid #ccc',
+                          flexShrink: 0,
+                        }}
+                      />
+                      <FaderGroup r={cue.r} g={cue.g} b={cue.b} w={cue.w} />
+                      <span style={{ color: '#444', fontWeight: 600 }}>{cue.intensity}%</span>
+                    </div>
+                    {cue.notes && (
+                      <div style={{ color: '#888', fontSize: '7pt', marginTop: 1 }}>{cue.notes}</div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         );
       })}
