@@ -38,10 +38,10 @@ export function Header() {
           <Save size={14} />
         </button>
         <button onClick={exportProject} title="Exporter JSON" className="p-1.5 hover:bg-console-highlight rounded text-gray-500 hover:text-accent transition-colors">
-          <Download size={14} />
+          <Upload size={14} />
         </button>
         <button onClick={() => fileRef.current?.click()} title="Importer JSON" className="p-1.5 hover:bg-console-highlight rounded text-gray-500 hover:text-accent transition-colors">
-          <Upload size={14} />
+          <Download size={14} />
         </button>
         <input ref={fileRef} type="file" accept=".json" className="hidden" onChange={(e) => {
           const f = e.target.files?.[0];
