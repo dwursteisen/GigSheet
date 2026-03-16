@@ -9,7 +9,7 @@ export function SoundSheetDocument() {
   const songs = getSongs(state);
 
   return (
-    <div className="text-[9pt] leading-relaxed print-landscape" style={{ color: '#111', fontFamily: 'Arial, sans-serif' }}>
+    <div className="text-[9pt] leading-relaxed" style={{ color: '#111', fontFamily: 'Arial, sans-serif' }}>
       {/* Header */}
       <div className="text-center mb-3 border-b-2 border-black pb-2">
         <h1 className="text-lg font-bold" style={{ color: '#111' }}>FICHE SON — {project.bandName}</h1>

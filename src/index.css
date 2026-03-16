@@ -84,12 +84,6 @@ textarea:focus {
   .print-document * {
     color: black !important;
   }
-  .print-landscape {
-    page: landscape;
-  }
-  @page landscape {
-    size: A4 landscape;
-  }
 }
 
 .print-only {
