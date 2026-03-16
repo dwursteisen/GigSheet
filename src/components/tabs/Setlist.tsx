@@ -63,7 +63,7 @@ export function Setlist() {
           <button onClick={addPause} className="flex items-center gap-1 text-[11px] text-gray-400 hover:text-accent transition-colors px-2 py-1 bg-console-surface rounded border border-console-border">
             <Coffee size={12} /> Pause
           </button>
-          <button onClick={addSong} className="flex items-center gap-1 text-[11px] text-accent hover:text-amber-400 transition-colors px-2 py-1 bg-console-surface rounded border border-console-border">
+          <button onClick={addSong} className="flex items-center gap-1 text-[11px] text-accent hover:text-amber-600 transition-colors px-2 py-1 bg-console-surface rounded border border-console-border">
             <Plus size={12} /> Morceau
           </button>
         </div>
@@ -71,9 +71,9 @@ export function Setlist() {
 
       {/* Summary */}
       <div className="flex gap-4 mb-3 text-[11px] text-gray-500">
-        <span>Total: <span className="text-gray-300">{formatDurationLong(total)}</span></span>
+        <span>Total: <span className="text-gray-700">{formatDurationLong(total)}</span></span>
         {setDurations.map((s) => (
-          <span key={s.set}>Set {s.set}: <span className="text-gray-300">{formatDurationLong(s.duration)}</span></span>
+          <span key={s.set}>Set {s.set}: <span className="text-gray-700">{formatDurationLong(s.duration)}</span></span>
         ))}
       </div>
 
@@ -110,9 +110,9 @@ export function Setlist() {
                   <td></td>
                   <td>
                     <div className="flex items-center gap-1">
-                      <button onClick={() => dispatch({ type: 'setlist/move', id: entry.id, direction: 'up' })} className="text-gray-600 hover:text-gray-300"><ChevronUp size={12} /></button>
-                      <button onClick={() => dispatch({ type: 'setlist/move', id: entry.id, direction: 'down' })} className="text-gray-600 hover:text-gray-300"><ChevronDown size={12} /></button>
-                      <button onClick={() => dispatch({ type: 'setlist/remove', id: entry.id })} className="text-gray-600 hover:text-vu-red"><Trash2 size={12} /></button>
+                      <button onClick={() => dispatch({ type: 'setlist/move', id: entry.id, direction: 'up' })} className="text-gray-400 hover:text-gray-700"><ChevronUp size={12} /></button>
+                      <button onClick={() => dispatch({ type: 'setlist/move', id: entry.id, direction: 'down' })} className="text-gray-400 hover:text-gray-700"><ChevronDown size={12} /></button>
+                      <button onClick={() => dispatch({ type: 'setlist/remove', id: entry.id })} className="text-gray-400 hover:text-vu-red"><Trash2 size={12} /></button>
                     </div>
                   </td>
                 </tr>
@@ -135,9 +135,9 @@ export function Setlist() {
                   <td></td>
                   <td>
                     <div className="flex items-center gap-1">
-                      <button onClick={() => dispatch({ type: 'setlist/move', id: entry.id, direction: 'up' })} className="text-gray-600 hover:text-gray-300"><ChevronUp size={12} /></button>
-                      <button onClick={() => dispatch({ type: 'setlist/move', id: entry.id, direction: 'down' })} className="text-gray-600 hover:text-gray-300"><ChevronDown size={12} /></button>
-                      <button onClick={() => dispatch({ type: 'setlist/remove', id: entry.id })} className="text-gray-600 hover:text-vu-red"><Trash2 size={12} /></button>
+                      <button onClick={() => dispatch({ type: 'setlist/move', id: entry.id, direction: 'up' })} className="text-gray-400 hover:text-gray-700"><ChevronUp size={12} /></button>
+                      <button onClick={() => dispatch({ type: 'setlist/move', id: entry.id, direction: 'down' })} className="text-gray-400 hover:text-gray-700"><ChevronDown size={12} /></button>
+                      <button onClick={() => dispatch({ type: 'setlist/remove', id: entry.id })} className="text-gray-400 hover:text-vu-red"><Trash2 size={12} /></button>
                     </div>
                   </td>
                 </tr>
@@ -149,7 +149,7 @@ export function Setlist() {
               <tr key={entry.id} className="hover:bg-console-highlight/20 transition-colors">
                 <td className="text-gray-500 text-center">
                   <div className="flex items-center gap-1">
-                    <Music size={10} className="text-gray-600" />
+                    <Music size={10} className="text-gray-400" />
                     <span>{songIndex}</span>
                   </div>
                 </td>
@@ -158,7 +158,7 @@ export function Setlist() {
                   <input type="text" value={entry.title} onChange={(e) => dispatch({ type: 'setlist/update', id: entry.id, changes: { title: e.target.value } })} placeholder="Titre" className="w-full bg-transparent border-none" />
                 </td>
                 <td>
-                  <input type="text" value={entry.artist ?? ''} onChange={(e) => dispatch({ type: 'setlist/update', id: entry.id, changes: { artist: e.target.value } })} className="w-full bg-transparent border-none text-gray-400 text-[11px]" />
+                  <input type="text" value={entry.artist ?? ''} onChange={(e) => dispatch({ type: 'setlist/update', id: entry.id, changes: { artist: e.target.value } })} className="w-full bg-transparent border-none text-gray-500 text-[11px]" />
                 </td>
                 <td>
                   <input type="text" value={entry.key ?? ''} onChange={(e) => dispatch({ type: 'setlist/update', id: entry.id, changes: { key: e.target.value } })} className="w-full bg-transparent border-none text-center" />
@@ -174,9 +174,9 @@ export function Setlist() {
                 </td>
                 <td>
                   <div className="flex items-center gap-1">
-                    <button onClick={() => dispatch({ type: 'setlist/move', id: entry.id, direction: 'up' })} className="text-gray-600 hover:text-gray-300"><ChevronUp size={12} /></button>
-                    <button onClick={() => dispatch({ type: 'setlist/move', id: entry.id, direction: 'down' })} className="text-gray-600 hover:text-gray-300"><ChevronDown size={12} /></button>
-                    <button onClick={() => dispatch({ type: 'setlist/remove', id: entry.id })} className="text-gray-600 hover:text-vu-red"><Trash2 size={12} /></button>
+                    <button onClick={() => dispatch({ type: 'setlist/move', id: entry.id, direction: 'up' })} className="text-gray-400 hover:text-gray-700"><ChevronUp size={12} /></button>
+                    <button onClick={() => dispatch({ type: 'setlist/move', id: entry.id, direction: 'down' })} className="text-gray-400 hover:text-gray-700"><ChevronDown size={12} /></button>
+                    <button onClick={() => dispatch({ type: 'setlist/remove', id: entry.id })} className="text-gray-400 hover:text-vu-red"><Trash2 size={12} /></button>
                   </div>
                 </td>
               </tr>

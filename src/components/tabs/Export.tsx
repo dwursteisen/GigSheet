@@ -31,7 +31,7 @@ export function Export() {
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-[11px] transition-colors ${
                 activeExportSubTab === id
                   ? 'bg-console-highlight text-accent'
-                  : 'text-gray-500 hover:text-gray-300'
+                  : 'text-gray-400 hover:text-gray-700'
               }`}
             >
               <Icon size={12} />
@@ -41,7 +41,7 @@ export function Export() {
         </div>
         <button
           onClick={handlePrint}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-accent text-console-bg rounded text-[11px] font-bold hover:bg-amber-400 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-accent text-white rounded text-[11px] font-bold hover:bg-amber-600 transition-colors"
         >
           <Printer size={12} />
           Imprimer / PDF

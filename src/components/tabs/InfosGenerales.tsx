@@ -109,7 +109,7 @@ export function InfosGenerales() {
       <section>
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-accent text-sm font-bold uppercase tracking-wider">Musiciens</h2>
-          <button onClick={addMusician} className="flex items-center gap-1 text-[11px] text-accent hover:text-amber-400 transition-colors">
+          <button onClick={addMusician} className="flex items-center gap-1 text-[11px] text-accent hover:text-amber-600 transition-colors">
             <Plus size={12} /> Ajouter
           </button>
         </div>

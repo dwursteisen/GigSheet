@@ -43,7 +43,7 @@ export function Son() {
       <section>
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-accent text-sm font-bold uppercase tracking-wider">Patch List</h2>
-          <button onClick={addPatch} className="flex items-center gap-1 text-[11px] text-accent hover:text-amber-400 transition-colors">
+          <button onClick={addPatch} className="flex items-center gap-1 text-[11px] text-accent hover:text-amber-600 transition-colors">
             <Plus size={12} /> Ajouter
           </button>
         </div>
@@ -89,7 +89,7 @@ export function Son() {
                     <input type="text" value={patch.notes ?? ''} onChange={(e) => dispatch({ type: 'patches/update', id: patch.id, changes: { notes: e.target.value } })} className="w-full bg-transparent border-none text-gray-500 text-[11px]" />
                   </td>
                   <td>
-                    <button onClick={() => dispatch({ type: 'patches/remove', id: patch.id })} className="text-gray-600 hover:text-vu-red"><Trash2 size={12} /></button>
+                    <button onClick={() => dispatch({ type: 'patches/remove', id: patch.id })} className="text-gray-400 hover:text-vu-red"><Trash2 size={12} /></button>
                   </td>
                 </tr>
               ))}
@@ -127,7 +127,7 @@ export function Son() {
                           <button
                             onClick={() => dispatch({ type: 'matrix/toggle', songId: song.id, patchId: p.id })}
                             className={`w-5 h-5 rounded text-[10px] transition-colors ${
-                              active ? 'bg-vu-green/80 text-white' : 'bg-console-highlight/30 text-gray-600'
+                              active ? 'bg-vu-green/80 text-white' : 'bg-console-highlight text-gray-400'
                             }`}
                           >
                             {active ? '✓' : '·'}
@@ -147,7 +147,7 @@ export function Son() {
       <section>
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-accent text-sm font-bold uppercase tracking-wider">Retours Monitors</h2>
-          <button onClick={addMonitor} className="flex items-center gap-1 text-[11px] text-accent hover:text-amber-400 transition-colors">
+          <button onClick={addMonitor} className="flex items-center gap-1 text-[11px] text-accent hover:text-amber-600 transition-colors">
             <Plus size={12} /> Ajouter
           </button>
         </div>
@@ -171,7 +171,7 @@ export function Son() {
                     {musicians.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
                   </select>
                   {musician && <div className="w-3 h-3 rounded-full" style={{ backgroundColor: musician.color }} />}
-                  <button onClick={() => dispatch({ type: 'monitors/remove', id: monitor.id })} className="text-gray-600 hover:text-vu-red">
+                  <button onClick={() => dispatch({ type: 'monitors/remove', id: monitor.id })} className="text-gray-400 hover:text-vu-red">
                     <Trash2 size={12} />
                   </button>
                 </div>

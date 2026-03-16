@@ -48,12 +48,12 @@ export function StagePlot({ musicians, interactive = false, onMove, width = 400,
       onMouseLeave={handleMouseUp}
     >
       {/* Stage front */}
-      <line x1="5" y1="8" x2="95" y2="8" stroke="#f59e0b" strokeWidth="0.5" strokeDasharray="2,2" opacity={0.4} />
-      <text x="50" y="5" textAnchor="middle" fill="#f59e0b" fontSize="3" opacity={0.5}>PUBLIC</text>
+      <line x1="5" y1="8" x2="95" y2="8" stroke="#d97706" strokeWidth="0.5" strokeDasharray="2,2" opacity={0.5} />
+      <text x="50" y="5" textAnchor="middle" fill="#d97706" fontSize="3" opacity={0.6}>PUBLIC</text>
 
       {/* Stage back */}
-      <line x1="5" y1="95" x2="95" y2="95" stroke="#444" strokeWidth="0.3" />
-      <text x="50" y="99" textAnchor="middle" fill="#666" fontSize="2.5">FOND DE SCÈNE</text>
+      <line x1="5" y1="95" x2="95" y2="95" stroke="#cbd5e1" strokeWidth="0.3" />
+      <text x="50" y="99" textAnchor="middle" fill="#94a3b8" fontSize="2.5">FOND DE SCÈNE</text>
 
       {musicians.map((m) => (
         <g
@@ -66,10 +66,10 @@ export function StagePlot({ musicians, interactive = false, onMove, width = 400,
           <circle r="4" fill="none" stroke={m.color} strokeWidth="0.5" opacity={0.4}>
             {interactive && <animate attributeName="r" from="4" to="6" dur="2s" repeatCount="indefinite" />}
           </circle>
-          <text y="-5.5" textAnchor="middle" fill="white" fontSize="2.8" fontWeight="bold">
+          <text y="-5.5" textAnchor="middle" fill="#1e293b" fontSize="2.8" fontWeight="bold">
             {m.name}
           </text>
-          <text y="7.5" textAnchor="middle" fill="#999" fontSize="2.2">
+          <text y="7.5" textAnchor="middle" fill="#64748b" fontSize="2.2">
             {m.instrument}
           </text>
         </g>

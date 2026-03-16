@@ -23,7 +23,7 @@ export function Sidebar() {
           className={`w-11 h-11 flex flex-col items-center justify-center rounded text-[9px] gap-0.5 transition-colors ${
             state.ui.activeTab === id
               ? 'bg-console-highlight text-accent'
-              : 'text-gray-500 hover:text-gray-300 hover:bg-console-highlight/50'
+              : 'text-gray-400 hover:text-gray-700 hover:bg-console-highlight/50'
           }`}
           title={label}
         >

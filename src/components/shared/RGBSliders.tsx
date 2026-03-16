@@ -13,7 +13,7 @@ export function RGBSliders({ r, g, b, w, onChange }: RGBSlidersProps) {
     { label: 'R', value: r, color: '#ef4444', key: 'r' as const },
     { label: 'G', value: g, color: '#22c55e', key: 'g' as const },
     { label: 'B', value: b, color: '#3b82f6', key: 'b' as const },
-    { label: 'W', value: w, color: '#ffffff', key: 'w' as const },
+    { label: 'W', value: w, color: '#94a3b8', key: 'w' as const },
   ];
 
   return (

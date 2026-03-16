@@ -67,13 +67,13 @@ export function LightingPlot({
   }, []);
 
   const bg = printMode ? '#f3f4f6' : undefined;
-  const trussColor = printMode ? '#999' : '#444';
-  const frontLineColor = printMode ? '#b45309' : '#f59e0b';
-  const frontTextColor = printMode ? '#b45309' : '#f59e0b';
-  const backLineColor = printMode ? '#bbb' : '#444';
-  const backTextColor = printMode ? '#999' : '#666';
-  const labelColor = printMode ? '#111' : 'white';
-  const dmxLabelColor = printMode ? '#666' : '#777';
+  const trussColor = printMode ? '#999' : '#94a3b8';
+  const frontLineColor = printMode ? '#b45309' : '#d97706';
+  const frontTextColor = printMode ? '#b45309' : '#d97706';
+  const backLineColor = printMode ? '#bbb' : '#cbd5e1';
+  const backTextColor = printMode ? '#999' : '#94a3b8';
+  const labelColor = printMode ? '#111' : '#1e293b';
+  const dmxLabelColor = printMode ? '#666' : '#64748b';
 
   return (
     <svg

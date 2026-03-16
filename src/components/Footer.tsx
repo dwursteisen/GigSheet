@@ -13,11 +13,11 @@ export function Footer() {
           {state.project.setlist.filter(e => e.type === 'song').length} morceaux
         </span>
         <span>
-          Durée totale: <span className="text-gray-300">{formatDurationLong(total)}</span>
+          Durée totale: <span className="text-gray-700">{formatDurationLong(total)}</span>
         </span>
         {endTime && (
           <span>
-            Fin estimée: <span className="text-gray-300">{endTime}</span>
+            Fin estimée: <span className="text-gray-700">{endTime}</span>
           </span>
         )}
       </div>
@@ -25,7 +25,7 @@ export function Footer() {
         <span>{state.project.patches.length} patchs</span>
         <span>{state.project.lightingEquipment.length} projecteurs</span>
         {state.ui.lastSaved && (
-          <span className="text-gray-600">
+          <span className="text-gray-400">
             Sauvé {new Date(state.ui.lastSaved).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
           </span>
         )}

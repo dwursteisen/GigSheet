@@ -72,7 +72,7 @@ export function Lumiere() {
       <section>
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-accent text-sm font-bold uppercase tracking-wider">Équipement Lumière</h2>
-          <button onClick={addFixture} className="flex items-center gap-1 text-[11px] text-accent hover:text-amber-400 transition-colors">
+          <button onClick={addFixture} className="flex items-center gap-1 text-[11px] text-accent hover:text-amber-600 transition-colors">
             <Plus size={12} /> Ajouter
           </button>
         </div>
@@ -112,13 +112,13 @@ export function Lumiere() {
                   </td>
                   <td className="text-center text-gray-500 tabular-nums">{fixture.dmxChannels}</td>
                   <td>
-                    <input type="text" value={fixture.position} onChange={(e) => dispatch({ type: 'lighting/updateFixture', id: fixture.id, changes: { position: e.target.value } })} className="w-full bg-transparent border-none text-gray-400" />
+                    <input type="text" value={fixture.position} onChange={(e) => dispatch({ type: 'lighting/updateFixture', id: fixture.id, changes: { position: e.target.value } })} className="w-full bg-transparent border-none text-gray-500" />
                   </td>
                   <td>
                     <input type="text" value={fixture.notes ?? ''} onChange={(e) => dispatch({ type: 'lighting/updateFixture', id: fixture.id, changes: { notes: e.target.value } })} className="w-full bg-transparent border-none text-gray-500 text-[11px]" />
                   </td>
                   <td>
-                    <button onClick={() => dispatch({ type: 'lighting/removeFixture', id: fixture.id })} className="text-gray-600 hover:text-vu-red"><Trash2 size={12} /></button>
+                    <button onClick={() => dispatch({ type: 'lighting/removeFixture', id: fixture.id })} className="text-gray-400 hover:text-vu-red"><Trash2 size={12} /></button>
                   </td>
                 </tr>
               ))}
@@ -128,7 +128,7 @@ export function Lumiere() {
 
         {lightingEquipment.length > 0 && (
           <div className="mt-4">
-            <h3 className="text-gray-400 text-[11px] uppercase tracking-wider mb-2">Plan d'implantation lumière</h3>
+            <h3 className="text-gray-600 text-[11px] uppercase tracking-wider mb-2">Plan d'implantation lumière</h3>
             <p className="text-[10px] text-gray-500 mb-2">Glissez les projecteurs pour les positionner sur la scène.</p>
             <LightingPlot
               fixtures={lightingEquipment}
@@ -159,11 +159,11 @@ export function Lumiere() {
                     value={script.mood}
                     onChange={(e) => dispatch({ type: 'lighting/setMood', songId: song.id, mood: e.target.value })}
                     placeholder="Ambiance..."
-                    className="flex-1 bg-transparent border-none text-gray-400 text-[11px] italic"
+                    className="flex-1 bg-transparent border-none text-gray-500 text-[11px] italic"
                   />
                   <button
                     onClick={() => addCue(song.id)}
-                    className="flex items-center gap-1 text-[10px] text-accent hover:text-amber-400 transition-colors"
+                    className="flex items-center gap-1 text-[10px] text-accent hover:text-amber-600 transition-colors"
                     disabled={lightingEquipment.length === 0}
                   >
                     <Plus size={10} /> Cue
@@ -204,7 +204,7 @@ export function Lumiere() {
                                 <option key={f.id} value={f.id}>{f.name || f.type}</option>
                               ))}
                             </select>
-                            {fixture && <span className="text-[10px] text-gray-600">DMX {fixture.dmxStart}-{fixture.dmxStart + fixture.dmxChannels - 1}</span>}
+                            {fixture && <span className="text-[10px] text-gray-400">DMX {fixture.dmxStart}-{fixture.dmxStart + fixture.dmxChannels - 1}</span>}
                             <div className="flex items-center gap-1 mt-1">
                               <span className="text-[10px] text-gray-500">INT</span>
                               <input
@@ -215,11 +215,11 @@ export function Lumiere() {
                                 onChange={(e) => dispatch({ type: 'lighting/updateCue', songId: song.id, cueId: cue.id, changes: { intensity: Number(e.target.value) } })}
                                 className="w-12 text-center text-[11px]"
                               />
-                              <span className="text-[10px] text-gray-600">%</span>
+                              <span className="text-[10px] text-gray-400">%</span>
                             </div>
                             <button
                               onClick={() => dispatch({ type: 'lighting/removeCue', songId: song.id, cueId: cue.id })}
-                              className="text-gray-600 hover:text-vu-red text-[10px] flex items-center gap-1 mt-1"
+                              className="text-gray-400 hover:text-vu-red text-[10px] flex items-center gap-1 mt-1"
                             >
                               <Trash2 size={11} /> Supprimer
                             </button>
