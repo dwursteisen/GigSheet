@@ -29,7 +29,7 @@ export function StagePlot({ musicians, interactive = false, onMove, width = 400,
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!dragging || !onMove) return;
     const coords = toSvgCoords(e);
-    if (coords) onMove(dragging, Math.round(coords.x), Math.round(coords.y));
+    if (coords) onMove(dragging, Math.round(coords.x), Math.round(100 - coords.y));
   }, [dragging, onMove, toSvgCoords]);
 
   const handleMouseUp = useCallback(() => {
@@ -47,18 +47,18 @@ export function StagePlot({ musicians, interactive = false, onMove, width = 400,
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
     >
-      {/* Stage front */}
-      <line x1="5" y1="8" x2="95" y2="8" stroke="#d97706" strokeWidth="0.5" strokeDasharray="2,2" opacity={0.5} />
-      <text x="50" y="5" textAnchor="middle" fill="#d97706" fontSize="3" opacity={0.6}>PUBLIC</text>
+      {/* Stage back (top) */}
+      <line x1="5" y1="5" x2="95" y2="5" stroke="#cbd5e1" strokeWidth="0.3" />
+      <text x="50" y="3" textAnchor="middle" fill="#94a3b8" fontSize="2.5">FOND DE SCÈNE</text>
 
-      {/* Stage back */}
-      <line x1="5" y1="95" x2="95" y2="95" stroke="#cbd5e1" strokeWidth="0.3" />
-      <text x="50" y="99" textAnchor="middle" fill="#94a3b8" fontSize="2.5">FOND DE SCÈNE</text>
+      {/* Stage front (bottom) */}
+      <line x1="5" y1="95" x2="95" y2="95" stroke="#d97706" strokeWidth="0.5" strokeDasharray="2,2" opacity={0.5} />
+      <text x="50" y="98" textAnchor="middle" fill="#d97706" fontSize="3" opacity={0.6}>PUBLIC</text>
 
       {musicians.map((m) => (
         <g
           key={m.id}
-          transform={`translate(${m.stageX}, ${m.stageY})`}
+          transform={`translate(${m.stageX}, ${100 - m.stageY})`}
           onMouseDown={() => handleMouseDown(m.id)}
           style={{ cursor: interactive ? 'grab' : 'default' }}
         >

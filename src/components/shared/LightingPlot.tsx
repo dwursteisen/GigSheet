@@ -59,7 +59,7 @@ export function LightingPlot({
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!dragging || !onMove) return;
     const coords = toSvgCoords(e);
-    if (coords) onMove(dragging, Math.round(coords.x), Math.round(coords.y));
+    if (coords) onMove(dragging, Math.round(coords.x), Math.round(100 - coords.y));
   }, [dragging, onMove, toSvgCoords]);
 
   const handleMouseUp = useCallback(() => {
@@ -87,30 +87,42 @@ export function LightingPlot({
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
     >
+      {/* Stage back (top) */}
+      <line x1="5" y1="5" x2="95" y2="5" stroke={backLineColor} strokeWidth="0.3" />
+      <text x="50" y="3" textAnchor="middle" fill={backTextColor} fontSize="2.5">FOND DE SCÈNE</text>
+
       {/* Truss line */}
-      <line x1="10" y1="12" x2="90" y2="12" stroke={trussColor} strokeWidth="0.8" />
-      <text x="7" y="12.5" fill={trussColor} fontSize="2" textAnchor="end">TRUSS</text>
+      <line x1="10" y1="88" x2="90" y2="88" stroke={trussColor} strokeWidth="0.8" />
+      <text x="7" y="88.5" fill={trussColor} fontSize="2" textAnchor="end">TRUSS</text>
 
-      {/* Stage front */}
-      <line x1="5" y1="8" x2="95" y2="8" stroke={frontLineColor} strokeWidth="0.5" strokeDasharray="2,2" opacity={0.5} />
-      <text x="50" y="5" textAnchor="middle" fill={frontTextColor} fontSize="3" opacity={0.6}>PUBLIC</text>
-
-      {/* Stage back */}
-      <line x1="5" y1="95" x2="95" y2="95" stroke={backLineColor} strokeWidth="0.3" />
-      <text x="50" y="99" textAnchor="middle" fill={backTextColor} fontSize="2.5">FOND DE SCÈNE</text>
+      {/* Stage front (bottom) */}
+      <line x1="5" y1="95" x2="95" y2="95" stroke={frontLineColor} strokeWidth="0.5" strokeDasharray="2,2" opacity={0.5} />
+      <text x="50" y="98" textAnchor="middle" fill={frontTextColor} fontSize="3" opacity={0.6}>PUBLIC</text>
 
       {fixtures.map((f) => {
         const color = colorOverrides?.[f.id] ?? DEFAULT_FIXTURE_COLOR;
         const isOverridden = !!colorOverrides?.[f.id];
         const shape = FIXTURE_SHAPES[f.type];
+        const coneAngle = f.coneAngle ?? 0;
+        const coneLength = f.coneLength ?? 15;
+        const halfWidth = coneLength * 0.35;
 
         return (
           <g
             key={f.id}
-            transform={`translate(${f.stageX}, ${f.stageY})`}
+            transform={`translate(${f.stageX}, ${100 - f.stageY})`}
             onMouseDown={() => handleMouseDown(f.id)}
             style={{ cursor: interactive ? 'grab' : 'default' }}
           >
+            {/* Light cone */}
+            <g transform={`rotate(${coneAngle})`}>
+              <polygon
+                points={`0,0 ${-halfWidth},${coneLength} ${halfWidth},${coneLength}`}
+                fill={color}
+                opacity={printMode ? 0.15 : 0.2}
+              />
+            </g>
+
             {/* Glow when color override is active */}
             {isOverridden && (
               <circle r="8" fill={color} opacity={printMode ? 0.2 : 0.15}>

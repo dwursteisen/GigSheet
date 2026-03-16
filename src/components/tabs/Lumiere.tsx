@@ -14,10 +14,7 @@ const DMX_CHANNELS_DEFAULT: Record<LightingFixture['type'], number> = {
 function buildColorOverrides(cues: LightingCue[]): Record<string, string> {
   const overrides: Record<string, string> = {};
   for (const cue of cues) {
-    const r = Math.min(255, cue.r + cue.w);
-    const g = Math.min(255, cue.g + cue.w);
-    const b = Math.min(255, cue.b + cue.w);
-    overrides[cue.fixtureId] = `rgb(${r},${g},${b})`;
+    overrides[cue.fixtureId] = `rgb(${cue.r},${cue.g},${cue.b})`;
   }
   return overrides;
 }
@@ -46,6 +43,8 @@ export function Lumiere() {
         position: '',
         stageX: 50,
         stageY: 30,
+        coneAngle: 0,
+        coneLength: 15,
         notes: '',
       },
     });
@@ -59,8 +58,7 @@ export function Lumiere() {
         id: crypto.randomUUID(),
         moment: '',
         fixtureId: lightingEquipment[0]?.id ?? '',
-        r: 255, g: 200, b: 50, w: 0,
-        intensity: 80,
+        r: 255, g: 200, b: 50,
         notes: '',
       },
     });
@@ -85,6 +83,8 @@ export function Lumiere() {
                 <th className="w-16">DMX</th>
                 <th className="w-12">CH</th>
                 <th className="w-32">Position</th>
+                <th className="w-16">Angle</th>
+                <th className="w-20">Longueur</th>
                 <th className="w-40">Notes</th>
                 <th className="w-8"></th>
               </tr>
@@ -113,6 +113,12 @@ export function Lumiere() {
                   <td className="text-center text-gray-500 tabular-nums">{fixture.dmxChannels}</td>
                   <td>
                     <input type="text" value={fixture.position} onChange={(e) => dispatch({ type: 'lighting/updateFixture', id: fixture.id, changes: { position: e.target.value } })} className="w-full bg-transparent border-none text-gray-500" />
+                  </td>
+                  <td>
+                    <input type="number" min={0} max={360} value={fixture.coneAngle ?? 0} onChange={(e) => dispatch({ type: 'lighting/updateFixture', id: fixture.id, changes: { coneAngle: Number(e.target.value) } })} className="w-16 bg-transparent border-none text-center tabular-nums" />
+                  </td>
+                  <td>
+                    <input type="number" min={5} max={30} value={fixture.coneLength ?? 15} onChange={(e) => dispatch({ type: 'lighting/updateFixture', id: fixture.id, changes: { coneLength: Number(e.target.value) } })} className="w-20 bg-transparent border-none text-center tabular-nums" />
                   </td>
                   <td>
                     <input type="text" value={fixture.notes ?? ''} onChange={(e) => dispatch({ type: 'lighting/updateFixture', id: fixture.id, changes: { notes: e.target.value } })} className="w-full bg-transparent border-none text-gray-500 text-[11px]" />
@@ -205,18 +211,6 @@ export function Lumiere() {
                               ))}
                             </select>
                             {fixture && <span className="text-[10px] text-gray-400">DMX {fixture.dmxStart}-{fixture.dmxStart + fixture.dmxChannels - 1}</span>}
-                            <div className="flex items-center gap-1 mt-1">
-                              <span className="text-[10px] text-gray-500">INT</span>
-                              <input
-                                type="number"
-                                min={0}
-                                max={100}
-                                value={cue.intensity}
-                                onChange={(e) => dispatch({ type: 'lighting/updateCue', songId: song.id, cueId: cue.id, changes: { intensity: Number(e.target.value) } })}
-                                className="w-12 text-center text-[11px]"
-                              />
-                              <span className="text-[10px] text-gray-400">%</span>
-                            </div>
                             <button
                               onClick={() => dispatch({ type: 'lighting/removeCue', songId: song.id, cueId: cue.id })}
                               className="text-gray-400 hover:text-vu-red text-[10px] flex items-center gap-1 mt-1"
@@ -228,7 +222,6 @@ export function Lumiere() {
                             r={cue.r}
                             g={cue.g}
                             b={cue.b}
-                            w={cue.w}
                             onChange={(v) => dispatch({ type: 'lighting/updateCue', songId: song.id, cueId: cue.id, changes: v })}
                           />
                         </div>

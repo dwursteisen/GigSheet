@@ -33,13 +33,12 @@ function FaderBar({ value, color, label }: { value: number; color: string; label
   );
 }
 
-function FaderGroup({ r, g, b, w }: { r: number; g: number; b: number; w: number }) {
+function FaderGroup({ r, g, b }: { r: number; g: number; b: number }) {
   return (
     <span style={{ display: 'inline-flex', gap: 3, justifyContent: 'center' }}>
       <FaderBar value={r} color="#dc2626" label="R" />
       <FaderBar value={g} color="#16a34a" label="G" />
       <FaderBar value={b} color="#2563eb" label="B" />
-      <FaderBar value={w} color="#888" label="W" />
     </span>
   );
 }
@@ -134,9 +133,6 @@ export function LightingSheetDocument() {
             >
               {script.cues.map(cue => {
                 const fixture = lightingEquipment.find(f => f.id === cue.fixtureId);
-                const rr = Math.min(255, cue.r + cue.w);
-                const gg = Math.min(255, cue.g + cue.w);
-                const bb = Math.min(255, cue.b + cue.w);
                 return (
                   <div
                     key={cue.id}
@@ -166,13 +162,12 @@ export function LightingSheetDocument() {
                           width: 14,
                           height: 14,
                           borderRadius: 2,
-                          backgroundColor: `rgb(${rr},${gg},${bb})`,
+                          backgroundColor: `rgb(${cue.r},${cue.g},${cue.b})`,
                           border: '1px solid #ccc',
                           flexShrink: 0,
                         }}
                       />
-                      <FaderGroup r={cue.r} g={cue.g} b={cue.b} w={cue.w} />
-                      <span style={{ color: '#444', fontWeight: 600 }}>{cue.intensity}%</span>
+                      <FaderGroup r={cue.r} g={cue.g} b={cue.b} />
                     </div>
                     {cue.notes && (
                       <div style={{ color: '#888', fontSize: '7pt', marginTop: 1 }}>{cue.notes}</div>

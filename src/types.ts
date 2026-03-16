@@ -45,6 +45,8 @@ export interface LightingFixture {
   position: string;
   stageX: number; // 0-100
   stageY: number; // 0-100
+  coneAngle: number; // 0-360 degrees, 0 = toward audience
+  coneLength: number; // SVG units, 5-30
   notes?: string;
 }
 
@@ -55,8 +57,6 @@ export interface LightingCue {
   r: number;
   g: number;
   b: number;
-  w: number;
-  intensity: number; // 0-100
   notes?: string;
 }
 
