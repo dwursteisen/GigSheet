@@ -15,7 +15,7 @@ export function Sidebar() {
   const dispatch = useAppDispatch();
 
   return (
-    <nav className="row-start-2 bg-console-surface border-r border-console-border flex flex-col items-center py-2 gap-1">
+    <nav className="row-start-2 bg-console-surface border-r border-console-border flex flex-col items-center py-2 gap-1 no-print">
       {tabs.map(({ id, icon: Icon, label }) => (
         <button
           key={id}

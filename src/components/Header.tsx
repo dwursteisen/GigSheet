@@ -13,7 +13,7 @@ export function Header() {
   const fileRef = useRef<HTMLInputElement>(null);
 
   return (
-    <header className="col-span-2 flex items-center gap-3 px-4 py-2 bg-console-surface border-b border-console-border">
+    <header className="col-span-2 flex items-center gap-3 px-4 py-2 bg-console-surface border-b border-console-border no-print">
       <div className="flex items-center gap-2 flex-1 min-w-0">
         <span className="text-accent font-bold text-sm tracking-wider">GIGSHEET</span>
         <span className="text-gray-500 text-xs">|</span>

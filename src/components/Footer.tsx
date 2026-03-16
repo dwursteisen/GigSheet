@@ -7,7 +7,7 @@ export function Footer() {
   const endTime = getComputedEndTime(state);
 
   return (
-    <footer className="col-span-2 flex items-center justify-between px-4 py-1.5 bg-console-surface border-t border-console-border text-[11px]">
+    <footer className="col-span-2 flex items-center justify-between px-4 py-1.5 bg-console-surface border-t border-console-border text-[11px] no-print">
       <div className="flex items-center gap-4 text-gray-500">
         <span>
           {state.project.setlist.filter(e => e.type === 'song').length} morceaux
