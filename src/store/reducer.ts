@@ -20,6 +20,39 @@ function removeMatrixReferences(
   return result;
 }
 
+function removeFxSendReferences(
+  sends: Record<string, Record<string, Record<string, boolean>>>,
+  key: 'song' | 'bus' | 'patch',
+  id: string,
+): Record<string, Record<string, Record<string, boolean>>> {
+  if (key === 'song') {
+    const { [id]: _, ...rest } = sends;
+    void _;
+    return rest;
+  }
+  if (key === 'bus') {
+    const result: Record<string, Record<string, Record<string, boolean>>> = {};
+    for (const [songId, buses] of Object.entries(sends)) {
+      const { [id]: _, ...rest } = buses;
+      void _;
+      result[songId] = rest;
+    }
+    return result;
+  }
+  // key === 'patch'
+  const result: Record<string, Record<string, Record<string, boolean>>> = {};
+  for (const [songId, buses] of Object.entries(sends)) {
+    const newBuses: Record<string, Record<string, boolean>> = {};
+    for (const [busId, patches] of Object.entries(buses)) {
+      const { [id]: _, ...rest } = patches;
+      void _;
+      newBuses[busId] = rest;
+    }
+    result[songId] = newBuses;
+  }
+  return result;
+}
+
 export function appReducer(state: AppState, action: AppAction): AppState {
   const markDirty = (s: AppState): AppState => ({
     ...s,
@@ -68,8 +101,10 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         .filter(p => p.musicianId === action.id)
         .map(p => p.id);
       let matrix = state.project.songTrackMatrix;
+      let fxSends = state.project.songFxSends;
       for (const pid of removedPatchIds) {
         matrix = removeMatrixReferences(matrix, 'patch', pid);
+        fxSends = removeFxSendReferences(fxSends, 'patch', pid);
       }
       return markDirty({
         ...state,
@@ -78,6 +113,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
           musicians: state.project.musicians.filter(m => m.id !== action.id),
           patches,
           songTrackMatrix: matrix,
+          songFxSends: fxSends,
           monitorReturns: state.project.monitorReturns.filter(mr => mr.musicianId !== action.id),
         },
       });
@@ -107,9 +143,11 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case 'setlist/remove': {
       const entry = state.project.setlist.find(e => e.id === action.id);
       let matrix = state.project.songTrackMatrix;
+      let fxSends = state.project.songFxSends;
       let script = state.project.lightingScript;
       if (entry?.type === 'song') {
         matrix = removeMatrixReferences(matrix, 'song', action.id);
+        fxSends = removeFxSendReferences(fxSends, 'song', action.id);
         const { [action.id]: _, ...restScript } = script;
         void _;
         script = restScript;
@@ -120,6 +158,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
           ...state.project,
           setlist: state.project.setlist.filter(e => e.id !== action.id),
           songTrackMatrix: matrix,
+          songFxSends: fxSends,
           lightingScript: script,
         },
       });
@@ -154,6 +193,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
           ...state.project,
           patches: state.project.patches.filter(p => p.id !== action.id),
           songTrackMatrix: removeMatrixReferences(state.project.songTrackMatrix, 'patch', action.id),
+          songFxSends: removeFxSendReferences(state.project.songFxSends, 'patch', action.id),
         },
       });
 
@@ -170,6 +210,50 @@ export function appReducer(state: AppState, action: AppAction): AppState {
             [action.songId]: {
               ...songPatches,
               [action.patchId]: !current,
+            },
+          },
+        },
+      });
+    }
+
+    // FX Buses
+    case 'fx/addBus':
+      return markDirty({ ...state, project: { ...state.project, fxBuses: [...state.project.fxBuses, action.bus] } });
+    case 'fx/updateBus':
+      return markDirty({
+        ...state,
+        project: {
+          ...state.project,
+          fxBuses: state.project.fxBuses.map(b =>
+            b.id === action.id ? { ...b, ...action.changes } : b
+          ),
+        },
+      });
+    case 'fx/removeBus':
+      return markDirty({
+        ...state,
+        project: {
+          ...state.project,
+          fxBuses: state.project.fxBuses.filter(b => b.id !== action.id),
+          songFxSends: removeFxSendReferences(state.project.songFxSends, 'bus', action.id),
+        },
+      });
+    case 'fx/toggleSend': {
+      const songBuses = state.project.songFxSends[action.songId] ?? {};
+      const busPatches = songBuses[action.fxBusId] ?? {};
+      const current = busPatches[action.patchId] ?? false;
+      return markDirty({
+        ...state,
+        project: {
+          ...state.project,
+          songFxSends: {
+            ...state.project.songFxSends,
+            [action.songId]: {
+              ...songBuses,
+              [action.fxBusId]: {
+                ...busPatches,
+                [action.patchId]: !current,
+              },
             },
           },
         },

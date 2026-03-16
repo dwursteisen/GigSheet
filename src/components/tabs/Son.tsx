@@ -1,11 +1,14 @@
 import { Plus, Trash2 } from 'lucide-react';
 import { useAppState, useAppDispatch } from '@/store/context';
 import { getSongs } from '@/store/selectors';
+import type { FxBus } from '@/types';
+
+const FX_TYPES: FxBus['type'][] = ['REVERB', 'DELAY', 'CHORUS', 'FLANGER', 'COMPRESSOR', 'OTHER'];
 
 export function Son() {
   const state = useAppState();
   const dispatch = useAppDispatch();
-  const { patches, musicians, songTrackMatrix, monitorReturns } = state.project;
+  const { patches, musicians, songTrackMatrix, fxBuses, songFxSends, monitorReturns } = state.project;
   const songs = getSongs(state);
 
   const addPatch = () => {
@@ -20,6 +23,18 @@ export function Son() {
         mic: '',
         stand: false,
         diBox: false,
+        notes: '',
+      },
+    });
+  };
+
+  const addFxBus = () => {
+    dispatch({
+      type: 'fx/addBus',
+      bus: {
+        id: crypto.randomUUID(),
+        name: `FX ${(fxBuses?.length ?? 0) + 1}`,
+        type: 'REVERB',
         notes: '',
       },
     });
@@ -142,6 +157,103 @@ export function Son() {
           </div>
         </section>
       )}
+
+      {/* FX Buses */}
+      <section>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-accent text-sm font-bold uppercase tracking-wider">Bus FX</h2>
+          <button onClick={addFxBus} className="flex items-center gap-1 text-[11px] text-accent hover:text-amber-600 transition-colors">
+            <Plus size={12} /> Ajouter
+          </button>
+        </div>
+        {(fxBuses?.length ?? 0) > 0 && (
+          <>
+            <div className="overflow-x-auto mb-4">
+              <table>
+                <thead>
+                  <tr className="text-[10px] uppercase">
+                    <th className="w-20">Type</th>
+                    <th>Nom</th>
+                    <th className="w-48">Notes</th>
+                    <th className="w-8"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {fxBuses.map(bus => (
+                    <tr key={bus.id} className="hover:bg-console-highlight/20">
+                      <td>
+                        <select
+                          value={bus.type}
+                          onChange={(e) => dispatch({ type: 'fx/updateBus', id: bus.id, changes: { type: e.target.value as FxBus['type'] } })}
+                          className="w-full"
+                        >
+                          {FX_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                      </td>
+                      <td>
+                        <input type="text" value={bus.name} onChange={(e) => dispatch({ type: 'fx/updateBus', id: bus.id, changes: { name: e.target.value } })} className="w-full bg-transparent border-none" />
+                      </td>
+                      <td>
+                        <input type="text" value={bus.notes ?? ''} onChange={(e) => dispatch({ type: 'fx/updateBus', id: bus.id, changes: { notes: e.target.value } })} className="w-full bg-transparent border-none text-gray-500 text-[11px]" />
+                      </td>
+                      <td>
+                        <button onClick={() => dispatch({ type: 'fx/removeBus', id: bus.id })} className="text-gray-400 hover:text-vu-red"><Trash2 size={12} /></button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* FX Send Matrices — one per bus */}
+            {songs.length > 0 && patches.length > 0 && fxBuses.map(bus => (
+              <div key={bus.id} className="mb-4">
+                <h3 className="text-gray-600 text-[11px] uppercase tracking-wider mb-2">
+                  Sends → {bus.name} <span className="text-gray-400">({bus.type})</span>
+                </h3>
+                <div className="overflow-x-auto">
+                  <table className="text-[11px]">
+                    <thead>
+                      <tr>
+                        <th className="sticky left-0 bg-console-bg z-10 min-w-[140px]">Morceau</th>
+                        {patches.map(p => (
+                          <th key={p.id} className="text-center px-1 min-w-[32px]">
+                            <div className="writing-mode-vertical text-[10px] whitespace-nowrap" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                              {p.channel}. {p.instrument}
+                            </div>
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {songs.map(song => (
+                        <tr key={song.id} className="hover:bg-console-highlight/20">
+                          <td className="sticky left-0 bg-console-bg z-10 font-medium">{song.title}</td>
+                          {patches.map(p => {
+                            const active = songFxSends?.[song.id]?.[bus.id]?.[p.id] ?? false;
+                            return (
+                              <td key={p.id} className="text-center">
+                                <button
+                                  onClick={() => dispatch({ type: 'fx/toggleSend', songId: song.id, fxBusId: bus.id, patchId: p.id })}
+                                  className={`w-5 h-5 rounded text-[10px] transition-colors ${
+                                    active ? 'bg-blue-500/80 text-white' : 'bg-console-highlight text-gray-400'
+                                  }`}
+                                >
+                                  {active ? '✓' : '·'}
+                                </button>
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+      </section>
 
       {/* Monitor Returns */}
       <section>

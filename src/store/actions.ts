@@ -1,6 +1,6 @@
 import type {
   TabId, ExportSubTab, GigSheetProject, EventDetails, Schedule,
-  Musician, SongEntry, Patch, MonitorReturn, LightingFixture, LightingCue,
+  Musician, SongEntry, Patch, MonitorReturn, FxBus, LightingFixture, LightingCue,
 } from '@/types';
 
 // UI actions
@@ -35,6 +35,12 @@ type RemovePatch = { type: 'patches/remove'; id: string };
 // Song-Track Matrix
 type ToggleMatrixCell = { type: 'matrix/toggle'; songId: string; patchId: string };
 
+// FX Buses
+type AddFxBus = { type: 'fx/addBus'; bus: FxBus };
+type UpdateFxBus = { type: 'fx/updateBus'; id: string; changes: Partial<FxBus> };
+type RemoveFxBus = { type: 'fx/removeBus'; id: string };
+type ToggleFxSend = { type: 'fx/toggleSend'; songId: string; fxBusId: string; patchId: string };
+
 // Monitor Returns
 type AddMonitorReturn = { type: 'monitors/add'; monitor: MonitorReturn };
 type UpdateMonitorReturn = { type: 'monitors/update'; id: string; changes: Partial<MonitorReturn> };
@@ -59,6 +65,7 @@ export type AppAction =
   | AddSetlistEntry | UpdateSetlistEntry | RemoveSetlistEntry | MoveSetlistEntry
   | AddPatch | UpdatePatch | RemovePatch
   | ToggleMatrixCell
+  | AddFxBus | UpdateFxBus | RemoveFxBus | ToggleFxSend
   | AddMonitorReturn | UpdateMonitorReturn | RemoveMonitorReturn | SetMonitorVolume
   | AddFixture | UpdateFixture | RemoveFixture
   | SetSongMood | AddCue | UpdateCue | RemoveCue;

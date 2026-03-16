@@ -36,6 +36,13 @@ export interface MonitorReturn {
   patchVolumes: Record<string, number>; // patchId -> 0-100
 }
 
+export interface FxBus {
+  id: string;
+  name: string;
+  type: 'REVERB' | 'DELAY' | 'CHORUS' | 'FLANGER' | 'COMPRESSOR' | 'OTHER';
+  notes?: string;
+}
+
 export interface LightingFixture {
   id: string;
   type: 'PAR' | 'WASH' | 'SPOT' | 'STROBE' | 'BAR' | 'OTHER';
@@ -97,6 +104,8 @@ export interface GigSheetProject {
   setlist: SongEntry[];
   patches: Patch[];
   songTrackMatrix: Record<string, Record<string, boolean>>; // songId -> patchId -> active
+  fxBuses: FxBus[];
+  songFxSends: Record<string, Record<string, Record<string, boolean>>>; // songId -> fxBusId -> patchId -> active
   monitorReturns: MonitorReturn[];
   lightingEquipment: LightingFixture[];
   lightingScript: Record<string, SongLighting>; // songId -> lighting

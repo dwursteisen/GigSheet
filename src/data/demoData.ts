@@ -29,6 +29,12 @@ const patchIds = {
   keys_R: id(),
 };
 
+const fxBusIds = {
+  reverbLong: id(),
+  reverbShort: id(),
+  delay: id(),
+};
+
 const fixtureIds = {
   parL: id(), parR: id(), parC: id(),
   washL: id(), washR: id(),
@@ -102,6 +108,28 @@ export const demoProject: GigSheetProject = {
       ),
     ])
   ),
+  fxBuses: [
+    { id: fxBusIds.reverbLong, type: 'REVERB' as const, name: 'Reverb Long', notes: 'Hall, decay 3s' },
+    { id: fxBusIds.reverbShort, type: 'REVERB' as const, name: 'Reverb Short', notes: 'Room, decay 0.8s' },
+    { id: fxBusIds.delay, type: 'DELAY' as const, name: 'Delay Tempo', notes: '1/4 note sync' },
+  ],
+  songFxSends: {
+    [songIds.s1]: {
+      [fxBusIds.reverbLong]: { [patchIds.vocalMic]: true, [patchIds.keys_L]: true, [patchIds.keys_R]: true },
+      [fxBusIds.delay]: { [patchIds.guitar1DI]: true },
+    },
+    [songIds.s4]: {
+      [fxBusIds.reverbLong]: { [patchIds.vocalMic]: true, [patchIds.guitar1DI]: true },
+      [fxBusIds.reverbShort]: { [patchIds.snare]: true },
+    },
+    [songIds.s9]: {
+      [fxBusIds.reverbLong]: { [patchIds.vocalMic]: true, [patchIds.keys_L]: true, [patchIds.keys_R]: true },
+    },
+    [songIds.s10]: {
+      [fxBusIds.reverbShort]: { [patchIds.snare]: true, [patchIds.vocalMic]: true },
+      [fxBusIds.delay]: { [patchIds.guitar1DI]: true, [patchIds.guitar2DI]: true },
+    },
+  },
   monitorReturns: [
     {
       id: id(), name: 'Retour 1 — Julie', musicianId: musicianIds.vocals,
