@@ -1,7 +1,6 @@
 import { useAppState } from '@/store/context';
 import { getSongs } from '@/store/selectors';
 import { LightingPlot } from '@/components/shared/LightingPlot';
-import type { LightingCue } from '@/types';
 
 function FaderBar({ value, color, label }: { value: number; color: string; label: string }) {
   const pct = Math.round((value / 255) * 100);
@@ -45,16 +44,6 @@ function FaderGroup({ r, g, b, w }: { r: number; g: number; b: number; w: number
   );
 }
 
-function buildColorOverrides(cues: LightingCue[]): Record<string, string> {
-  const overrides: Record<string, string> = {};
-  for (const cue of cues) {
-    const r = Math.min(255, cue.r + cue.w);
-    const g = Math.min(255, cue.g + cue.w);
-    const b = Math.min(255, cue.b + cue.w);
-    overrides[cue.fixtureId] = `rgb(${r},${g},${b})`;
-  }
-  return overrides;
-}
 
 export function LightingSheetDocument() {
   const state = useAppState();
@@ -112,24 +101,13 @@ export function LightingSheetDocument() {
       {songs.map(song => {
         const script = lightingScript[song.id];
         if (!script || script.cues.length === 0) return null;
-        const songColorOverrides = buildColorOverrides(script.cues);
         return (
           <div key={song.id} className="mb-3" style={{ breakInside: 'avoid' }}>
             <div className="flex items-center gap-2 mb-1">
               <span style={{ fontWeight: 700, fontSize: '9pt', color: '#111' }}>{song.title}</span>
               {script.mood && <span style={{ fontSize: '8pt', color: '#666', fontStyle: 'italic' }}>— {script.mood}</span>}
             </div>
-            <div className="flex gap-3 items-start">
-            <div style={{ flexShrink: 0 }}>
-              <LightingPlot
-                fixtures={lightingEquipment}
-                colorOverrides={songColorOverrides}
-                printMode
-                width={180}
-                height={110}
-              />
-            </div>
-            <table className="text-[8pt] flex-1" style={{ borderCollapse: 'collapse', width: '100%' }}>
+            <table className="text-[8pt]" style={{ borderCollapse: 'collapse', width: '100%' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid #999' }}>
                   <th style={{ padding: '1px 3px', textAlign: 'left', color: '#111' }}>Moment</th>
@@ -173,7 +151,6 @@ export function LightingSheetDocument() {
                 })}
               </tbody>
             </table>
-            </div>
           </div>
         );
       })}
