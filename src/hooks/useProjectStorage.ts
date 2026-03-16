@@ -7,13 +7,36 @@ export function useProjectStorage(
   project: GigSheetProject,
   dispatch: React.Dispatch<AppAction>,
 ) {
-  const exportProject = useCallback(() => {
+  const exportProject = useCallback(async () => {
     const data = JSON.stringify(project, null, 2);
+    const fileName = `${project.name.replace(/\s+/g, '_')}.gigsheet.json`;
+
+    if ('showSaveFilePicker' in window) {
+      try {
+        const showSaveFilePicker = (window as unknown as { showSaveFilePicker: (opts: { suggestedName: string; types: { description: string; accept: Record<string, string[]> }[] }) => Promise<FileSystemFileHandle> }).showSaveFilePicker;
+        const handle = await showSaveFilePicker({
+          suggestedName: fileName,
+          types: [
+            {
+              description: 'GigSheet JSON',
+              accept: { 'application/json': ['.json'] },
+            },
+          ],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(data);
+        await writable.close();
+        return;
+      } catch (err) {
+        if ((err as DOMException).name === 'AbortError') return;
+      }
+    }
+
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${project.name.replace(/\s+/g, '_')}.gigsheet.json`;
+    a.download = fileName;
     a.click();
     URL.revokeObjectURL(url);
   }, [project]);
