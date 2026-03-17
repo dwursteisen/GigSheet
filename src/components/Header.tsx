@@ -1,8 +1,9 @@
-import { Save, Download, Upload, FilePlus } from 'lucide-react';
+import { Save, Download, Upload, FilePlus, Share2 } from 'lucide-react';
 import { useAppState, useAppDispatch } from '@/store/context';
 import { useProjectStorage } from '@/hooks/useProjectStorage';
 import { useMasterClock } from '@/hooks/useMasterClock';
-import { useRef } from 'react';
+import { encodeProjectToUrl } from '@/utils/shareUrl';
+import { useRef, useState } from 'react';
 import { demoProject } from '@/data/demoData';
 
 export function Header() {
@@ -11,6 +12,19 @@ export function Header() {
   const { exportProject, importProject, newProject, quickSave } = useProjectStorage(state.project, dispatch);
   const clock = useMasterClock();
   const fileRef = useRef<HTMLInputElement>(null);
+  const [shareLabel, setShareLabel] = useState<string | null>(null);
+
+  const handleShare = async () => {
+    try {
+      const url = await encodeProjectToUrl(state.project);
+      await navigator.clipboard.writeText(url);
+      setShareLabel('Lien copié !');
+      setTimeout(() => setShareLabel(null), 2000);
+    } catch {
+      setShareLabel('Erreur');
+      setTimeout(() => setShareLabel(null), 2000);
+    }
+  };
 
   return (
     <header className="col-span-2 flex items-center gap-3 px-4 py-2 bg-console-surface border-b border-console-border no-print">
@@ -34,6 +48,14 @@ export function Header() {
           </span>
         )}
 
+        <button onClick={handleShare} title="Partager (copier le lien)" className="p-1.5 hover:bg-console-highlight rounded text-gray-500 hover:text-accent transition-colors relative">
+          <Share2 size={14} />
+          {shareLabel && (
+            <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-vu-green whitespace-nowrap bg-console-surface border border-console-border rounded px-1.5 py-0.5">
+              {shareLabel}
+            </span>
+          )}
+        </button>
         <button onClick={quickSave} title="Quick Save (Ctrl+S)" className="p-1.5 hover:bg-console-highlight rounded text-gray-500 hover:text-accent transition-colors">
           <Save size={14} />
         </button>
