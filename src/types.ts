@@ -112,7 +112,7 @@ export interface GigSheetProject {
 }
 
 export type TabId = 'infos' | 'setlist' | 'son' | 'lumiere' | 'export';
-export type ExportSubTab = 'rundown' | 'sound' | 'lighting';
+export type ExportSubTab = 'rundown' | 'sound' | 'lighting' | 'stage-setlist';
 
 export interface UIState {
   activeTab: TabId;

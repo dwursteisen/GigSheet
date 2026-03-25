@@ -1,12 +1,14 @@
-import { Printer, FileText, Volume2, Lightbulb } from 'lucide-react';
+import { Printer, FileText, Volume2, Lightbulb, ListMusic } from 'lucide-react';
 import { useAppState, useAppDispatch } from '@/store/context';
 import type { ExportSubTab } from '@/types';
 import { RundownDocument } from '@/components/export/RundownDocument';
 import { SoundSheetDocument } from '@/components/export/SoundSheetDocument';
 import { LightingSheetDocument } from '@/components/export/LightingSheetDocument';
+import { SetlistDocument } from '@/components/export/SetlistDocument';
 
 const subTabs: { id: ExportSubTab; icon: typeof FileText; label: string }[] = [
   { id: 'rundown', icon: FileText, label: 'Conduite' },
+  { id: 'stage-setlist', icon: ListMusic, label: 'Setlist Scène' },
   { id: 'sound', icon: Volume2, label: 'Fiche Son' },
   { id: 'lighting', icon: Lightbulb, label: 'Fiche Lumière' },
 ];
@@ -50,6 +52,7 @@ export function Export() {
 
       <div className="print-document bg-white text-black p-8 rounded shadow-lg max-w-[210mm] mx-auto">
         {activeExportSubTab === 'rundown' && <RundownDocument />}
+        {activeExportSubTab === 'stage-setlist' && <SetlistDocument />}
         {activeExportSubTab === 'sound' && <SoundSheetDocument />}
         {activeExportSubTab === 'lighting' && <LightingSheetDocument />}
       </div>
